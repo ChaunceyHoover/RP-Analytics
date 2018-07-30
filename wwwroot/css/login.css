@@ -1,0 +1,41 @@
+/* Color palette - Aquamarine
+rgb(138, 255, 255) #8AFFFF
+rgb(18, 169, 222)  #12A9DE
+rgb(6, 40, 137)    #062889
+rgb(35, 165, 180)  #23A5B4
+rgb(58, 255, 229)  #3AFFE5
+*/
+
+@keyframes aquamarine-cycler {
+	 0% { background-color: #8AFFFF; }
+	20% { background-color: #12A9DE; }
+	40% { background-color: #062899; }
+	60% { background-color: #23A5B4; }
+	80% { background-color: #3AFFE5; }
+}
+
+body {
+	background-color: #8AFFFF;
+	animation: aquamarine-cycler 10s infinite;
+}
+
+#login-wrapper {
+	min-width: 370px;
+	max-width: 370px;
+	min-height: 370px;
+	max-height: 370px;
+	background-color: white;
+	border-radius: 5px;
+	padding: 50px 70px 70px 70px;
+	position: relative;
+
+	z-index: 1;
+}
+
+#login-wrapper p {
+	font-size: 12px;
+}
+
+#shape-container {
+	z-index: 0;
+}

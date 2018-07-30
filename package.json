@@ -1,0 +1,30 @@
+{
+  "name": "rp-analytics",
+  "version": "1.0.0",
+  "description": "A tool to generate reports about rooms for Report Portal",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TekPrepper-Solutions/RP-Analytics.git"
+  },
+  "author": "Chauncey Hoover",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TekPrepper-Solutions/RP-Analytics/issues"
+  },
+  "homepage": "https://github.com/TekPrepper-Solutions/RP-Analytics#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "moment": "^2.22.2",
+    "mysql": "^2.16.0",
+    "nodemon": "^1.18.3",
+    "pug": "^2.0.3"
+  }
+}

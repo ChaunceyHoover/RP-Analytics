@@ -1,0 +1,22 @@
+doctype html
+html
+	head
+		//- Title, CSS files, etc.
+		include header.pug
+		link(rel='stylesheet', href='/css/login.css')
+	body
+		#login-wrapper.mx-auto.mt-5.text-center
+			h4 Tech Login
+			p.mt-none Please enter your username and password
+			.form-group
+				input.form-control#username(type='text', placeholder='Username')
+			.form-group
+				input.form-control#password(type='password', placeholder='Password')
+			button.btn.btn-success.btn-block(type='button', onclick='login()') Login
+			a.mt-2(href='', onclick='alert("Too bad u fukwit. Git fuk\'d")') Forgot your password?
+
+		#shape-container
+
+		//- Bootstrap, jQuery, etc.
+		include scripts.pug
+		script(src="/js/login.js")

@@ -1,0 +1,42 @@
+doctype html
+html
+	head
+		//- Title, CSS files
+		include header.pug
+		link(rel='stylesheet', href='/css/main.css')
+	body
+		include navbar.pug
+		#filter-wrapper
+			#filter-menu.mx-auto.text-center
+				form.pt-2
+					.row
+						.col
+							input#start.form-control(type="text", placeholder="Start Date (mm/dd)")
+						.col
+							input#end.form-control(type="text", placeholder="End Date (mm/dd)")
+					.row
+						.span6.float-none.mx-auto.btn-group(role="group", aria-label="Report Generation").mt-2
+							button.btn.btn-success#generate_btn(type="button", onclick='generate_report()') Generate
+							button.btn.btn-secondary#print_btn(type="button", onclick='print_report()') Print
+							button.btn.btn-primary#export_btn(type="button", onclick='export_report()') Export
+				h4.mt-2#report-status
+		
+		include result-table.pug
+
+		//- In, out, hold, active / inactive rooms, total rooms
+		#report-results.mt-3.mx-5
+			.result#stk
+				h1 STK
+				+result_table('stk')
+			.result#ttnx
+				h1 TTNX
+				+result_table('ttnx')
+			.result#sclt
+				h1 SCLT
+				+result_table('sclt')
+			.result#clsc
+				h1 CLSC
+				+result_table('clsc')
+
+		//- Bootstrap, jQuery, etc.
+		include scripts.pug

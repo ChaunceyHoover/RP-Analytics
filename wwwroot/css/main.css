@@ -1,0 +1,76 @@
+/* Color palette - Aquamarine
+rgb(138, 255, 255) #8AFFFF
+rgb(18, 169, 222)  #12A9DE
+rgb(6, 40, 137)    #062889
+rgb(35, 165, 180)  #23A5B4
+rgb(58, 255, 229)  #3AFFE5
+*/
+
+body {
+	background-color: rgba(138, 255, 255, 0.1);
+}
+
+#filter-wrapper {
+	background-color: rgba(18, 169, 222, 0.1);
+	min-height: 175px;
+}
+
+#filter-menu {
+	width: 500px;
+	height: 175px;
+}
+
+/* Result = each section for each system */
+.result {
+	margin-bottom: 1rem;
+}
+.result table {
+	margin-bottom: 0;
+}
+.result h1 {
+	padding-left: 10px;
+}
+
+/* Set each result to system specific report portal colors */
+
+/* STK & CLASSIC (same colors) */
+#stk, #stk th, #clsc, #clsc th {
+	background-color: rgba(96, 143, 180, 0.5);
+}
+#stk thead th:first-child, #clsc thead th:first-child {
+	background-color: rgba(96, 143, 180, 0.75)
+}
+#stk .empty, #clsc .empty {
+	background-color: rgb(96, 143, 180);
+}
+.result#stk, .result#clsc {
+	border: 2px solid rgb(96, 143, 180);
+}
+
+/* TTNX */
+#ttnx, #ttnx th {
+	background-color: rgba(82, 142, 85, 0.5);
+}
+#ttnx thead th:first-child {
+	background-color: rgba(82, 142, 85, 0.75);
+}
+#ttnx .empty {
+	background-color: rgb(82, 142, 85);
+}
+.result#ttnx {
+	border: 2px solid rgb(82, 142, 85);
+}
+
+/* SCLT */
+#sclt, #sclt th {
+	background-color: rgba(211, 95, 87, 0.5);
+}
+#sclt thead th:first-child {
+	background-color: rgba(211, 95, 87, 0.75);
+}
+#sclt .empty {
+	background-color: rgb(211, 95, 87);
+}
+.result#sclt {
+	border: 2px solid rgb(211, 95, 87);
+}

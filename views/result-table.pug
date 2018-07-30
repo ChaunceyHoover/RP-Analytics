@@ -1,0 +1,25 @@
+mixin result_table(name)
+	table.table.table-borderless(id=name + '-table')
+		thead
+			tr
+				th(scope="col")
+				th(scope="col") In
+				th(scope="col") Out
+				th(scope="col") Hold
+				th.text-right(scope="col") Active / In-Active rooms
+				th.text-right(scope="col") Total rooms
+		tbody
+			tr
+				th(scope="row") Current Year
+				td(id=name + '-current-in') -
+				td(id=name + '-current-out') -
+				td(id=name + '-current-hold') -
+				td.text-right(id=name + '-current-actives') - / -
+				td.text-right(id=name + '-current-total') -
+			tr
+				th(scope="row") Previous Year
+				td(id=name + '-previous-in') -
+				td(id=name + '-previous-out') -
+				td(id=name + '-previous-hold') -
+				td.empty
+				td.empty 
