@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const mysql = require('mysql');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 require('dotenv').load();
 
 // All supported systems
