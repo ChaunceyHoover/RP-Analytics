@@ -4,7 +4,7 @@
   "description": "A tool to generate reports about rooms for Report Portal",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
