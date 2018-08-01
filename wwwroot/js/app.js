@@ -63,13 +63,13 @@ function generate_report() {
 
 	// Format datetime strings for request (YYYY-MM-DD HH:mm:SS)
 	var c_start_time = (new Date().getFullYear()) + '-' + pad(start_result[1], 2) + '-' + pad(start_result[2], 2) +
-						'%2000:00:00';
+						'%2003:00:00';
 	var c_end_time = (new Date().getFullYear()) + '-' + pad(end_result[1], 2) + '-' + pad(end_result[2], 2) +
-						'%2000:00:00';
+						'%2003:00:00';
 	var p_start_time = (new Date().getFullYear() - 1) + '-' + pad(start_result[1], 2) + '-' + pad(start_result[2], 2) +
-						'%2000:00:00';
+						'%2003:00:00';
 	var p_end_time = (new Date().getFullYear() - 1) + '-' + pad(end_result[1], 2) + '-' + pad(end_result[2], 2) +
-						'%2000:00:00';
+						'%2003:00:00';
 
 	// Signify loading by changing button color
 	$('#generate_btn').toggleClass('btn-success', false);
@@ -94,6 +94,9 @@ function generate_report() {
 					$('#' + value2 + '-current-' + value1).html(res[value2][value1]); 
 					$('#' + value2 + '-current-' + value1).html(res[value2].formatted[value1]);
 				});
+			});
+			$.each(['stk', 'ttnx', 'sclt', 'clsc'], function(index, value) {
+				$('#' + value + '-current-actives').html(res[value].active + ' / ' + (res[value].total - res[value].active));
 			});
 			report.current = res;
 		},

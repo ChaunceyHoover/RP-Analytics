@@ -120,133 +120,167 @@ router.get('/report', function(req, res, next) {
 		});
 	}
 
-	const report_query = "SELECT " +
-	"	s.site_id, s.site_number, MoneyIN AS 'In', MoneyOUT AS 'Out' " +
-	"FROM permission p " +
-	"RIGHT JOIN " +
-	"	(SELECT " +
-	"	 site_id, site_number FROM sites) s " +
-	"	 ON p.site_id = s.site_id " +
-	"LEFT JOIN " +
-	"	(SELECT billing.site_id, SUM(iAmount) / 100 AS MoneyIN " +
-	"	 FROM billing " +
-	"	 WHERE " +
-	"		strStatus = 'MD' AND dtDate >= ? AND dtDate < ? " +
-	"	 GROUP BY site_id) MI " +
-	"	 ON MI.site_id = s.site_id " +
-	"LEFT JOIN " +
-	"	(SELECT billing.site_id, SUM(iAmount) / 100 AS MoneyOUT " +
-	"	 FROM billing " +
-	"	 WHERE " +
-	"		strStatus = 'MW' AND dtDate >= ? AND dtDate < ? " +
-	"	 GROUP BY site_id) MO " +
-	"	 ON MO.site_id = s.site_id " +
-	"WHERE " +
-	"	(s.site_id > 0) " +
-	"GROUP BY `site_number`;";
+	const report_query = "SELECT site_id, SUM(iAmount) / 100 as MoneyIn " +
+	"FROM `billing` " +
+	"WHERE strStatus = 'MD' AND dtDate >= ? AND dtDate <= ? " +
+	"GROUP BY site_id; " +
+	"SELECT site_id, SUM(iAmount) / 100 as MoneyOut " +
+	"FROM `billing` " +
+	"WHERE strStatus = 'MW' AND dtDate >= ? AND dtDate <= ? " +
+	"GROUP BY site_id; " +
+	"SELECT site_id, site_active FROM `sites`";
 
 	var total_count = 0;
 	var report = {};
 
 	stk_connection.query(report_query, [req.query.start, req.query.end, req.query.start, req.query.end], (err, results) => {
-		var total_in = 0, total_out = 0;
-		for (var i = 0; i < results.length; i++) {
-			total_in += results[i].In || 0;
-			total_out += results[i].Out || 0;
-		}
+		var total_in = 0, total_out = 0, total_hold;
+		var total_sites = results[2].length, active_sites = 0;
+		results[0].forEach(function(row_in) {
+			total_in += row_in.MoneyIn;
+		});
+		results[1].forEach(function(row_out) {
+			total_out += row_out.MoneyOut;
+		});
+		results[2].forEach(function(row_site) {
+			if (row_site.site_active == 1) {
+				active_sites++;
+			}
+		});
 
-		var total_hold = total_in - total_out;
+		total_hold = total_in - total_out;
+
 		report.stk = {
 			'in': Math.round(total_in * 100) / 100,
 			'out': Math.round(total_out * 100) / 100,
 			'hold': Math.round(total_hold * 100) / 100,
-			'total': results.length,
+			'total': total_sites,
+			'active': active_sites,
 			'formatted': {
 				'in': '$' + (total_in).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
 				'out': '$' + (total_out).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
 				'hold': '$' + (total_hold).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
 			}
 		};
-		
+
 		if (++total_count >= 4) {
 			return res.status(200).json(report);
 		}
 	});
 
 	ttnx_connection.query(report_query, [req.query.start, req.query.end, req.query.start, req.query.end], (err, results) => {
-		var total_in = 0, total_out = 0;
-		for (var i = 0; i < results.length; i++) {
-			total_in += results[i].In || 0;
-			total_out += results[i].Out || 0;
-		}
+		var total_in = 0, total_out = 0, total_hold;
+		var total_sites = results[2].length, active_sites = 0;
+		results[0].forEach(function(row_in) {
+			total_in += row_in.MoneyIn;
+		});
+		results[1].forEach(function(row_out) {
+			total_out += row_out.MoneyOut;
+		});
+		results[2].forEach(function(row_site) {
+			if (row_site.site_active == 1) {
+				active_sites++;
+			}
+		});
 
-		var total_hold = total_in - total_out;
+		total_hold = total_in - total_out;
+
 		report.ttnx = {
 			'in': Math.round(total_in * 100) / 100,
 			'out': Math.round(total_out * 100) / 100,
 			'hold': Math.round(total_hold * 100) / 100,
-			'total': results.length,
+			'total': total_sites,
+			'active': active_sites,
 			'formatted': {
 				'in': '$' + (total_in).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
 				'out': '$' + (total_out).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
 				'hold': '$' + (total_hold).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
 			}
 		};
-		
+
 		if (++total_count >= 4) {
 			return res.status(200).json(report);
 		}
 	});
 
 	sclt_connection.query(report_query, [req.query.start, req.query.end, req.query.start, req.query.end], (err, results) => {
-		var total_in = 0, total_out = 0;
-		for (var i = 0; i < results.length; i++) {
-			total_in += results[i].In || 0;
-			total_out += results[i].Out || 0;
-		}
+		var total_in = 0, total_out = 0, total_hold;
+		var total_sites = results[2].length, active_sites = 0;
+		results[0].forEach(function(row_in) {
+			total_in += row_in.MoneyIn;
+		});
+		results[1].forEach(function(row_out) {
+			total_out += row_out.MoneyOut;
+		});
+		results[2].forEach(function(row_site) {
+			if (row_site.site_active == 1) {
+				active_sites++;
+			}
+		});
 
-		var total_hold = total_in - total_out;
+		total_hold = total_in - total_out;
+
 		report.sclt = {
 			'in': Math.round(total_in * 100) / 100,
 			'out': Math.round(total_out * 100) / 100,
 			'hold': Math.round(total_hold * 100) / 100,
-			'total': results.length,
+			'total': total_sites,
+			'active': active_sites,
 			'formatted': {
 				'in': '$' + (total_in).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
 				'out': '$' + (total_out).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
 				'hold': '$' + (total_hold).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
 			}
 		};
-		
+
 		if (++total_count >= 4) {
 			return res.status(200).json(report);
 		}
 	});
 
 	clsc_connection.query(report_query, [req.query.start, req.query.end, req.query.start, req.query.end], (err, results) => {
-		var total_in = 0, total_out = 0;
-		for (var i = 0; i < results.length; i++) {
-			total_in += results[i].In || 0;
-			total_out += results[i].Out || 0;
-		}
+		var total_in = 0, total_out = 0, total_hold;
+		var total_sites = results[2].length, active_sites = 0;
+		results[0].forEach(function(row_in) {
+			total_in += row_in.MoneyIn;
+		});
+		results[1].forEach(function(row_out) {
+			total_out += row_out.MoneyOut;
+		});
+		results[2].forEach(function(row_site) {
+			if (row_site.site_active == 1) {
+				active_sites++;
+			}
+		});
 
-		var total_hold = total_in - total_out;
+		total_hold = total_in - total_out;
+
 		report.clsc = {
 			'in': Math.round(total_in * 100) / 100,
 			'out': Math.round(total_out * 100) / 100,
 			'hold': Math.round(total_hold * 100) / 100,
-			'total': results.length,
+			'total': total_sites,
+			'active': active_sites,
 			'formatted': {
 				'in': '$' + (total_in).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
 				'out': '$' + (total_out).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
 				'hold': '$' + (total_hold).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
 			}
 		};
-		
+
 		if (++total_count >= 4) {
 			return res.status(200).json(report);
 		}
 	});
+});
+
+router.get('/test', function(req, res, next) {
+	stk_connection.query('SELECT 1 as MoneyIn; SELECT 2 as MoneyOut', [], function(err, response) {
+		console.log(response[0]);
+		console.log(response[1]);
+	});
+
+	return res.status(200).json();
 });
 
 module.exports = router;
