@@ -14,8 +14,8 @@ mixin result_table(name)
 				td(id=name + '-current-in') -
 				td(id=name + '-current-out') -
 				td(id=name + '-current-hold') -
-				td.text-right(id=name + '-current-actives') - / -
-				td.text-right(id=name + '-current-total') -
+				td.text-right(id=name + '-current-actives')= data[name].active_sites + " / " + (data[name].total_sites - data[name].active_sites)
+				td.text-right(id=name + '-current-total')= data[name].total_sites
 			tr
 				th(scope="row") Previous Year
 				td(id=name + '-previous-in') -

@@ -1,0 +1,32 @@
+# Port to host tool
+PORT=8008
+
+# Database for this program
+SQL_DB=rpat
+SQL_HOST=localhost
+SQL_USER=rpatUser
+SQL_PASS=CMZokUOHI2i3kOxWCNZw
+
+# STRYK3R connection info
+STK_DB=STK
+STK_HOST=mydbinstance-us-east-1d.czpgu1lidhwq.us-east-1.rds.amazonaws.com
+STK_USER=stkUser
+STK_PASS=CMZokUlt4ovAhJiVQPAr
+
+# Titan connection info
+TTNX_DB=TTNX
+TTNX_HOST=mydbinstance-us-east-1d.czpgu1lidhwq.us-east-1.rds.amazonaws.com
+TTNX_USER=TTNXUser
+TTNX_PASS=TTNX!@#!@#TTNX!@#123123ttnx
+
+# Scarlett connection info
+SCLT_DB=SCLT
+SCLT_HOST=mydbinstance-us-east-1d.czpgu1lidhwq.us-east-1.rds.amazonaws.com
+SCLT_USER=scltUser
+SCLT_PASS=5rNorkOHI2i3DlNuhCR0
+
+# Classic connection info
+CLSC_DB=CLASSIC
+CLSC_HOST=mydbinstance-us-east-1d.czpgu1lidhwq.us-east-1.rds.amazonaws.com
+CLSC_USER=classicUser
+CLSC_PASS=cTOdWelyP33IkOxWCNZw

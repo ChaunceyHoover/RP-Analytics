@@ -127,25 +127,18 @@ router.get('/report', function(req, res, next) {
 	"SELECT site_id, SUM(iAmount) / 100 as MoneyOut " +
 	"FROM `billing` " +
 	"WHERE strStatus = 'MW' AND dtDate >= ? AND dtDate <= ? " +
-	"GROUP BY site_id; " +
-	"SELECT site_id, site_active FROM `sites`";
+	"GROUP BY site_id";
 
 	var total_count = 0;
 	var report = {};
 
 	stk_connection.query(report_query, [req.query.start, req.query.end, req.query.start, req.query.end], (err, results) => {
 		var total_in = 0, total_out = 0, total_hold;
-		var total_sites = results[2].length, active_sites = 0;
 		results[0].forEach(function(row_in) {
 			total_in += row_in.MoneyIn;
 		});
 		results[1].forEach(function(row_out) {
 			total_out += row_out.MoneyOut;
-		});
-		results[2].forEach(function(row_site) {
-			if (row_site.site_active == 1) {
-				active_sites++;
-			}
 		});
 
 		total_hold = total_in - total_out;
@@ -154,8 +147,6 @@ router.get('/report', function(req, res, next) {
 			'in': Math.round(total_in * 100) / 100,
 			'out': Math.round(total_out * 100) / 100,
 			'hold': Math.round(total_hold * 100) / 100,
-			'total': total_sites,
-			'active': active_sites,
 			'formatted': {
 				'in': '$' + (total_in).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
 				'out': '$' + (total_out).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
@@ -170,17 +161,11 @@ router.get('/report', function(req, res, next) {
 
 	ttnx_connection.query(report_query, [req.query.start, req.query.end, req.query.start, req.query.end], (err, results) => {
 		var total_in = 0, total_out = 0, total_hold;
-		var total_sites = results[2].length, active_sites = 0;
 		results[0].forEach(function(row_in) {
 			total_in += row_in.MoneyIn;
 		});
 		results[1].forEach(function(row_out) {
 			total_out += row_out.MoneyOut;
-		});
-		results[2].forEach(function(row_site) {
-			if (row_site.site_active == 1) {
-				active_sites++;
-			}
 		});
 
 		total_hold = total_in - total_out;
@@ -189,8 +174,6 @@ router.get('/report', function(req, res, next) {
 			'in': Math.round(total_in * 100) / 100,
 			'out': Math.round(total_out * 100) / 100,
 			'hold': Math.round(total_hold * 100) / 100,
-			'total': total_sites,
-			'active': active_sites,
 			'formatted': {
 				'in': '$' + (total_in).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
 				'out': '$' + (total_out).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
@@ -205,17 +188,11 @@ router.get('/report', function(req, res, next) {
 
 	sclt_connection.query(report_query, [req.query.start, req.query.end, req.query.start, req.query.end], (err, results) => {
 		var total_in = 0, total_out = 0, total_hold;
-		var total_sites = results[2].length, active_sites = 0;
 		results[0].forEach(function(row_in) {
 			total_in += row_in.MoneyIn;
 		});
 		results[1].forEach(function(row_out) {
 			total_out += row_out.MoneyOut;
-		});
-		results[2].forEach(function(row_site) {
-			if (row_site.site_active == 1) {
-				active_sites++;
-			}
 		});
 
 		total_hold = total_in - total_out;
@@ -224,8 +201,6 @@ router.get('/report', function(req, res, next) {
 			'in': Math.round(total_in * 100) / 100,
 			'out': Math.round(total_out * 100) / 100,
 			'hold': Math.round(total_hold * 100) / 100,
-			'total': total_sites,
-			'active': active_sites,
 			'formatted': {
 				'in': '$' + (total_in).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
 				'out': '$' + (total_out).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
@@ -240,17 +215,11 @@ router.get('/report', function(req, res, next) {
 
 	clsc_connection.query(report_query, [req.query.start, req.query.end, req.query.start, req.query.end], (err, results) => {
 		var total_in = 0, total_out = 0, total_hold;
-		var total_sites = results[2].length, active_sites = 0;
 		results[0].forEach(function(row_in) {
 			total_in += row_in.MoneyIn;
 		});
 		results[1].forEach(function(row_out) {
 			total_out += row_out.MoneyOut;
-		});
-		results[2].forEach(function(row_site) {
-			if (row_site.site_active == 1) {
-				active_sites++;
-			}
 		});
 
 		total_hold = total_in - total_out;
@@ -259,8 +228,6 @@ router.get('/report', function(req, res, next) {
 			'in': Math.round(total_in * 100) / 100,
 			'out': Math.round(total_out * 100) / 100,
 			'hold': Math.round(total_hold * 100) / 100,
-			'total': total_sites,
-			'active': active_sites,
 			'formatted': {
 				'in': '$' + (total_in).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
 				'out': '$' + (total_out).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),

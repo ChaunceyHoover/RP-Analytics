@@ -44,7 +44,7 @@ function generate_report() {
 	generating = true;
 
 	// clear fields
-	$.each(['in', 'out', 'hold', 'total'], function(index1, value1) {
+	$.each(['in', 'out', 'hold'], function(index1, value1) {
 		$.each(['current', 'previous'], function(index2, value2) {
 			$.each(['stk', 'ttnx', 'sclt', 'clsc'], function(index3, value3) {
 				$('#' + value3 + '-' + value2 + '-' + value1).html('-');
@@ -89,14 +89,11 @@ function generate_report() {
 		type: 'GET',
 		contentType: 'application/json',
 		success: function(res) {
-			$.each(['in', 'out', 'hold', 'total'], function(index1, value1) {
+			$.each(['in', 'out', 'hold'], function(index1, value1) {
 				$.each(['stk', 'ttnx', 'sclt', 'clsc'], function(index2, value2) {
 					$('#' + value2 + '-current-' + value1).html(res[value2][value1]); 
 					$('#' + value2 + '-current-' + value1).html(res[value2].formatted[value1]);
 				});
-			});
-			$.each(['stk', 'ttnx', 'sclt', 'clsc'], function(index, value) {
-				$('#' + value + '-current-actives').html(res[value].active + ' / ' + (res[value].total - res[value].active));
 			});
 			report.current = res;
 		},
