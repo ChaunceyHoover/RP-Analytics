@@ -132,112 +132,38 @@ router.get('/report', function(req, res, next) {
 	var total_count = 0;
 	var report = {};
 
-	stk_connection.query(report_query, [req.query.start, req.query.end, req.query.start, req.query.end], (err, results) => {
-		var total_in = 0, total_out = 0, total_hold;
-		results[0].forEach(function(row_in) {
-			total_in += row_in.MoneyIn;
-		});
-		results[1].forEach(function(row_out) {
-			total_out += row_out.MoneyOut;
-		});
-
-		total_hold = total_in - total_out;
-
-		report.stk = {
-			'in': Math.round(total_in * 100) / 100,
-			'out': Math.round(total_out * 100) / 100,
-			'hold': Math.round(total_hold * 100) / 100,
-			'formatted': {
-				'in': '$' + (total_in).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
-				'out': '$' + (total_out).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
-				'hold': '$' + (total_hold).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+	var connections = [ 
+		{name: 'stk', con: stk_connection}, {name: 'ttnx', con: ttnx_connection},
+		{name: 'sclt', con: sclt_connection}, {name: 'clsc', con: clsc_connection}
+	];
+	
+	connections.forEach(function(connection) {
+		connection.con.query(report_query, [req.query.start, req.query.end, req.query.start, req.query.end], (err, results) => {
+			var total_in = 0, total_out = 0, total_hold;
+			results[0].forEach(function(row_in) {
+				total_in += row_in.MoneyIn;
+			});
+			results[1].forEach(function(row_out) {
+				total_out += row_out.MoneyOut;
+			});
+	
+			total_hold = total_in - total_out;
+	
+			report[connection.name] = {
+				'in': Math.round(total_in * 100) / 100,
+				'out': Math.round(total_out * 100) / 100,
+				'hold': Math.round(total_hold * 100) / 100,
+				'formatted': {
+					'in': '$' + (total_in).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
+					'out': '$' + (total_out).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
+					'hold': '$' + (total_hold).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+				}
+			};
+	
+			if (++total_count >= 4) {
+				return res.status(200).json(report);
 			}
-		};
-
-		if (++total_count >= 4) {
-			return res.status(200).json(report);
-		}
-	});
-
-	ttnx_connection.query(report_query, [req.query.start, req.query.end, req.query.start, req.query.end], (err, results) => {
-		var total_in = 0, total_out = 0, total_hold;
-		results[0].forEach(function(row_in) {
-			total_in += row_in.MoneyIn;
 		});
-		results[1].forEach(function(row_out) {
-			total_out += row_out.MoneyOut;
-		});
-
-		total_hold = total_in - total_out;
-
-		report.ttnx = {
-			'in': Math.round(total_in * 100) / 100,
-			'out': Math.round(total_out * 100) / 100,
-			'hold': Math.round(total_hold * 100) / 100,
-			'formatted': {
-				'in': '$' + (total_in).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
-				'out': '$' + (total_out).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
-				'hold': '$' + (total_hold).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
-			}
-		};
-
-		if (++total_count >= 4) {
-			return res.status(200).json(report);
-		}
-	});
-
-	sclt_connection.query(report_query, [req.query.start, req.query.end, req.query.start, req.query.end], (err, results) => {
-		var total_in = 0, total_out = 0, total_hold;
-		results[0].forEach(function(row_in) {
-			total_in += row_in.MoneyIn;
-		});
-		results[1].forEach(function(row_out) {
-			total_out += row_out.MoneyOut;
-		});
-
-		total_hold = total_in - total_out;
-
-		report.sclt = {
-			'in': Math.round(total_in * 100) / 100,
-			'out': Math.round(total_out * 100) / 100,
-			'hold': Math.round(total_hold * 100) / 100,
-			'formatted': {
-				'in': '$' + (total_in).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
-				'out': '$' + (total_out).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
-				'hold': '$' + (total_hold).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
-			}
-		};
-
-		if (++total_count >= 4) {
-			return res.status(200).json(report);
-		}
-	});
-
-	clsc_connection.query(report_query, [req.query.start, req.query.end, req.query.start, req.query.end], (err, results) => {
-		var total_in = 0, total_out = 0, total_hold;
-		results[0].forEach(function(row_in) {
-			total_in += row_in.MoneyIn;
-		});
-		results[1].forEach(function(row_out) {
-			total_out += row_out.MoneyOut;
-		});
-
-		total_hold = total_in - total_out;
-
-		report.clsc = {
-			'in': Math.round(total_in * 100) / 100,
-			'out': Math.round(total_out * 100) / 100,
-			'hold': Math.round(total_hold * 100) / 100,
-			'formatted': {
-				'in': '$' + (total_in).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
-				'out': '$' + (total_out).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'),
-				'hold': '$' + (total_hold).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
-			}
-		};
-
-		if (++total_count >= 4) {
-			return res.status(200).json(report);
-		}
 	});
 });
 
