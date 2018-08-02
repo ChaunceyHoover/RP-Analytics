@@ -150,12 +150,22 @@ function export_report() {
 		return;
 	} 
 
+	$.each(['stk', 'ttnx', 'sclt', 'clsc'], function(index, value) {
+		var actives = $('#' + value + '-current-actives').html(),
+			total = $('#' + value + '-current-total').html() * 1;
+		var regex = /(\d*)...(\d*)/g;
+		var match = regex.exec(actives);
+		report[value] = {};
+		report[value].total = total;
+		report[value].active = match[1] * 1;
+		report[value].inactive = match[2] * 1;
+	});
 	var blob = 'Report Generated for ' + report.date.start + ' to ' + report.date.end + "\n"
-			+ "System,In,Out,Hold,Active/In-Active rooms,Total rooms\n"
-			+ 'STK,' + report.current.stk.in + ',' + report.current.stk.out + ',' + report.current.stk.hold + ',,' + report.current.stk.total + '\n'
-			+ 'TTNX,' + report.current.ttnx.in + ',' + report.current.ttnx.out + ',' + report.current.ttnx.hold + ',,' + report.current.ttnx.total + '\n'
-			+ 'SCLT,' + report.current.sclt.in + ',' + report.current.sclt.out + ',' + report.current.sclt.hold + ',,' + report.current.sclt.total + '\n'
-			+ 'CLSC,' + report.current.clsc.in + ',' + report.current.clsc.out + ',' + report.current.clsc.hold + ',,' + report.current.clsc.total + '\n';
+			+ "System,In,Out,Hold,Active rooms,In-Active rooms,Total rooms\n"
+			+ 'STK,' + report.current.stk.in + ',' + report.current.stk.out + ',' + report.current.stk.hold + ',' + report.stk.active + ',' + report.stk.inactive + ',' + report.stk.total + '\n'
+			+ 'TTNX,' + report.current.ttnx.in + ',' + report.current.ttnx.out + ',' + report.current.ttnx.hold + ',' + report.ttnx.active + ',' + report.ttnx.inactive + ',' + report.ttnx.total + '\n'
+			+ 'SCLT,' + report.current.sclt.in + ',' + report.current.sclt.out + ',' + report.current.sclt.hold + ',' + report.sclt.active + ',' + report.sclt.inactive + ',' + report.sclt.total + '\n'
+			+ 'CLSC,' + report.current.clsc.in + ',' + report.current.clsc.out + ',' + report.current.clsc.hold + ',' + report.clsc.active + ',' + report.clsc.inactive + ',' + report.clsc.total + '\n';
 	
 	saveAs(
 		new Blob([blob], { type: "text/plain;charset=" + document.characterSet }),
