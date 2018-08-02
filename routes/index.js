@@ -59,7 +59,6 @@ router.get('/', function(req, res, next) {
 			data[connection.name] = { total_sites, active_sites };
 
 			if (++total === 4) {
-				console.log(data);
 				return res.render('index', { 
 					moment: require('moment'), 
 					title: "Home", 

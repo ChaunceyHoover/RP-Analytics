@@ -136,7 +136,7 @@ router.get('/report', function(req, res, next) {
 		{name: 'stk', con: stk_connection}, {name: 'ttnx', con: ttnx_connection},
 		{name: 'sclt', con: sclt_connection}, {name: 'clsc', con: clsc_connection}
 	];
-	
+
 	connections.forEach(function(connection) {
 		connection.con.query(report_query, [req.query.start, req.query.end, req.query.start, req.query.end], (err, results) => {
 			var total_in = 0, total_out = 0, total_hold;
@@ -165,15 +165,6 @@ router.get('/report', function(req, res, next) {
 			}
 		});
 	});
-});
-
-router.get('/test', function(req, res, next) {
-	stk_connection.query('SELECT 1 as MoneyIn; SELECT 2 as MoneyOut', [], function(err, response) {
-		console.log(response[0]);
-		console.log(response[1]);
-	});
-
-	return res.status(200).json();
 });
 
 module.exports = router;
